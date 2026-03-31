@@ -6,6 +6,9 @@ use axiom_core::TickEngine;
 use tracing_subscriber::EnvFilter;
 
 fn main() {
+    // Initialize CLI configuration
+    let _config = config::CliConfig::load();
+
     // Initialize structured logging (respects RUST_LOG env var)
     tracing_subscriber::fmt()
         .with_env_filter(EnvFilter::from_default_env())
