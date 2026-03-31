@@ -2,7 +2,7 @@
 
 > *"From first principles, simulate everything."*
 
-**Repository:** `github.com/[username]/axiom`
+**Repository:** `github.com/[tkrenn12306]/axiom`
 **Lizenz:** MIT
 **Sprache:** Rust
 **Status:** Pre-Alpha / Konzeptphase
