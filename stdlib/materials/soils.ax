@@ -1,0 +1,29 @@
+// AxiomLang Standard Library — Soils
+// Phase 1 scaffold
+
+material dry_soil {
+    density: 1400
+    static_friction: 0.50
+    kinetic_friction: 0.40
+    thermal_conductivity: 0.3
+    specific_heat: 1200
+    load_bearing: 300
+}
+
+material wet_soil {
+    density: 1600
+    static_friction: 0.35
+    kinetic_friction: 0.25
+    thermal_conductivity: 0.6
+    specific_heat: 1700
+    load_bearing: 150
+}
+
+material clay {
+    density: 1800
+    static_friction: 0.30
+    kinetic_friction: 0.20
+    thermal_conductivity: 1.0
+    specific_heat: 1400
+    load_bearing: 100
+}

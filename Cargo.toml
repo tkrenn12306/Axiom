@@ -1,0 +1,60 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/axiom-core",
+    "crates/axiom-lang",
+    "crates/axiom-physics",
+    "crates/axiom-ai",
+    "crates/axiom-render",
+    "crates/axiom-cli",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+authors = ["Tobias Krenn"]
+license = "MIT"
+repository = "https://github.com/tkrenn12306/Axiom"
+
+[workspace.dependencies]
+# ECS
+hecs = "0.10"
+
+# Math / Numerics
+nalgebra = "0.33"
+
+# Parsing (AxiomLang)
+pest = "2.7"
+pest_derive = "2.7"
+
+# Terminal UI
+ratatui = "0.29"
+crossterm = "0.28"
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+bincode = "1"
+
+# Parallelism
+rayon = "1"
+
+# Logging / Tracing
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# REPL
+rustyline = "14"
+
+# Testing
+proptest = "1"
+
+# Async runtime (for future use)
+tokio = { version = "1", features = ["full"] }
+
+# Internal crates
+axiom-core = { path = "crates/axiom-core" }
+axiom-lang = { path = "crates/axiom-lang" }
+axiom-physics = { path = "crates/axiom-physics" }
+axiom-ai = { path = "crates/axiom-ai" }
+axiom-render = { path = "crates/axiom-render" }

@@ -1,0 +1,8 @@
+// AxiomLang Standard Library — Buildings
+// Phase 1 scaffold
+
+structure log_cabin {
+    material: oak_wood
+    integrity: 1.0
+    capacity: 8
+}

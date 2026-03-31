@@ -1,0 +1,27 @@
+// AxiomLang Standard Library — Stones
+// Phase 1 scaffold
+
+material granite {
+    density: 2750
+    youngs_modulus: 70
+    compressive_strength: 200
+    tensile_strength: 15
+    static_friction: 0.65
+    kinetic_friction: 0.55
+    thermal_conductivity: 2.5
+    specific_heat: 790
+    hardness: 7.0
+    porosity: 0.01
+}
+
+material limestone {
+    density: 2550
+    youngs_modulus: 60
+    compressive_strength: 150
+    static_friction: 0.60
+    kinetic_friction: 0.50
+    thermal_conductivity: 1.3
+    specific_heat: 840
+    hardness: 3.5
+    porosity: 0.08
+}

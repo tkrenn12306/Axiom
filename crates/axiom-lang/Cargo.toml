@@ -1,0 +1,15 @@
+[package]
+name = "axiom-lang"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+pest = { workspace = true }
+pest_derive = { workspace = true }
+serde = { workspace = true }
+tracing = { workspace = true }
+axiom-core = { workspace = true }
+
+[dev-dependencies]

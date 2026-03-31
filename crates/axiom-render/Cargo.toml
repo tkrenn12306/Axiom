@@ -1,0 +1,13 @@
+[package]
+name = "axiom-render"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+ratatui = { workspace = true }
+crossterm = { workspace = true }
+serde = { workspace = true }
+tracing = { workspace = true }
+axiom-core = { workspace = true }

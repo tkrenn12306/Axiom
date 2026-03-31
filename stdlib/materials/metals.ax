@@ -1,0 +1,27 @@
+// AxiomLang Standard Library — Metals
+// Phase 1 scaffold
+
+material steel {
+    density: 7850
+    youngs_modulus: 210
+    tensile_strength: 400
+    compressive_strength: 250
+    static_friction: 0.74
+    kinetic_friction: 0.57
+    thermal_conductivity: 50
+    specific_heat: 490
+    melting_point: 1370
+    hardness: 6.0
+}
+
+material aluminum {
+    density: 2700
+    youngs_modulus: 69
+    tensile_strength: 270
+    static_friction: 0.61
+    kinetic_friction: 0.47
+    thermal_conductivity: 205
+    specific_heat: 897
+    melting_point: 660
+    hardness: 2.75
+}

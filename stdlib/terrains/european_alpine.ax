@@ -1,0 +1,17 @@
+// AxiomLang Standard Library — European Alpine Terrain
+// Phase 1 scaffold
+
+terrain meadow {
+    base_material: dry_soil
+    surface_material: grass
+    elevation_range: 400..500
+    moisture: 0.3
+    load_bearing: 200
+}
+
+terrain mountain_slope {
+    base_material: granite
+    surface_material: gravel
+    elevation_range: 800..2500
+    slope_angle: 20..45
+}

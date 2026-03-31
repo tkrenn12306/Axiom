@@ -1,0 +1,37 @@
+// AxiomLang Standard Library — Fluids
+// Phase 1 scaffold
+
+material water {
+    density: 1000
+    thermal_conductivity: 0.6
+    specific_heat: 4186
+    melting_point: 0
+    boiling_point: 100
+    viscosity: 0.001
+}
+
+material ice {
+    density: 917
+    static_friction: 0.03
+    kinetic_friction: 0.01
+    thermal_conductivity: 2.18
+    specific_heat: 2090
+    melting_point: 0
+    hardness: 1.5
+}
+
+material fresh_snow {
+    density: 100
+    static_friction: 0.10
+    kinetic_friction: 0.05
+    thermal_conductivity: 0.05
+    specific_heat: 2090
+    melting_point: 0
+    albedo: 0.85
+}
+
+material packed_snow extends fresh_snow {
+    density: 400
+    static_friction: 0.20
+    kinetic_friction: 0.10
+}

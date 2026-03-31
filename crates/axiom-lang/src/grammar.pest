@@ -1,0 +1,147 @@
+// AxiomLang PEG Grammar (pest)
+// Covers: world, material, entity, terrain, spawn, place blocks
+
+// ─── Whitespace & Comments ──────────────────────────────────────────────────
+
+WHITESPACE = _{ " " | "\t" | "\r" | "\n" }
+COMMENT    = _{ "//" ~ (!"\n" ~ ANY)* }
+
+// ─── Primitives ─────────────────────────────────────────────────────────────
+
+integer  = @{ "-"? ~ ASCII_DIGIT+ }
+float    = @{ "-"? ~ ASCII_DIGIT+ ~ ("." ~ ASCII_DIGIT+)? ~ (("e" | "E") ~ ("+" | "-")? ~ ASCII_DIGIT+)? }
+number   = _{ float }
+
+string   = @{ "\"" ~ (!"\"" ~ ANY)* ~ "\"" }
+
+bool_true  = { "true" }
+bool_false = { "false" }
+boolean    = { bool_true | bool_false }
+
+identifier = @{ (ASCII_ALPHA | "_") ~ (ASCII_ALPHANUMERIC | "_")* }
+
+// ─── Unit Literals ──────────────────────────────────────────────────────────
+// A quantity is a number followed by an optional unit suffix.
+
+unit_suffix = @{
+    "kg/m³" | "kg/m3" |
+    "W/(m·K)" | "W/(m*K)" | "W/mK" |
+    "J/(kg·K)" | "J/(kg*K)" | "J/kgK" |
+    "m/s²" | "m/s2" |
+    "km/h" | "m/s" | "mph" |
+    "rad/s" |
+    "°C" | "°F" |
+    "GPa" | "MPa" | "kPa" | "hPa" | "Pa" |
+    "atm" |
+    "GJ" | "MJ" | "kJ" | "kcal" | "cal" | "J" |
+    "kN" | "N" |
+    "kW" | "W" |
+    "km²" | "km2" | "m²" | "m2" | "cm²" | "cm2" |
+    "km³" | "km3" | "m³" | "m3" |
+    "mL" | "ml" | "L" | "l" |
+    "km" | "cm" | "mm" | "ft" | "yd" | "mi" | "m" |
+    "mg" | "kg" | "lb" | "g" |
+    "min" | "Hz" | "hz" | "h" | "s" |
+    "clo" | "CLO" |
+    "deg" | "rad" |
+    "K"
+}
+
+quantity = { number ~ unit_suffix? }
+
+// ─── Value Types ────────────────────────────────────────────────────────────
+
+range_val  = { number ~ ".." ~ number ~ unit_suffix? }
+pair_val   = { "(" ~ number ~ "," ~ number ~ ")" }
+triple_val = { "(" ~ number ~ "," ~ number ~ "," ~ number ~ ")" }
+
+value = {
+    range_val |
+    triple_val |
+    pair_val |
+    quantity |
+    boolean |
+    string |
+    identifier
+}
+
+// ─── Property Assignment ─────────────────────────────────────────────────────
+
+property = { identifier ~ ":" ~ value }
+
+// ─── Material Block ──────────────────────────────────────────────────────────
+
+extends_clause = { "extends" ~ identifier }
+
+material_block = {
+    "material" ~ identifier ~ extends_clause? ~
+    "{" ~ property* ~ "}"
+}
+
+// ─── World Block ─────────────────────────────────────────────────────────────
+
+world_block = {
+    "world" ~ string ~
+    "{" ~ property* ~ "}"
+}
+
+// ─── Entity Block ────────────────────────────────────────────────────────────
+
+entity_block = {
+    "entity" ~ identifier ~
+    "{" ~ property* ~ "}"
+}
+
+// ─── Terrain Block ───────────────────────────────────────────────────────────
+
+terrain_block = {
+    "terrain" ~ identifier ~
+    "{" ~ property* ~ "}"
+}
+
+// ─── Structure Block ─────────────────────────────────────────────────────────
+
+structure_block = {
+    "structure" ~ identifier ~
+    "{" ~ property* ~ "}"
+}
+
+// ─── Weather Block ───────────────────────────────────────────────────────────
+
+weather_block = {
+    "weather" ~ identifier ~
+    "{" ~ property* ~ "}"
+}
+
+// ─── Spawn Command ───────────────────────────────────────────────────────────
+// spawn <entity_type> <instance_name> at (<x>, <y>) { overrides... }
+
+spawn_at = { "at" ~ pair_val }
+
+spawn_cmd = {
+    "spawn" ~ identifier ~ string ~ spawn_at? ~
+    ("{" ~ property* ~ "}")?
+}
+
+// ─── Place Command ───────────────────────────────────────────────────────────
+// place <terrain_type> at (<x1>,<y1>)..(<x2>,<y2>)
+
+place_range = { pair_val ~ ".." ~ pair_val }
+place_cmd   = { "place" ~ identifier ~ "at" ~ place_range }
+
+// ─── Top-level Statement ─────────────────────────────────────────────────────
+
+statement = {
+    world_block |
+    material_block |
+    entity_block |
+    terrain_block |
+    structure_block |
+    weather_block |
+    spawn_cmd |
+    place_cmd
+}
+
+// ─── File ────────────────────────────────────────────────────────────────────
+
+file = { SOI ~ statement* ~ EOI }

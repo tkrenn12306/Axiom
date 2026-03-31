@@ -1,0 +1,7 @@
+// AxiomLang Standard Library — Bridges
+// Phase 1 scaffold
+
+structure wooden_bridge {
+    material: oak_wood
+    integrity: 1.0
+}

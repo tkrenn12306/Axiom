@@ -1,0 +1,27 @@
+// AxiomLang Standard Library — Woods
+// Phase 1 scaffold
+
+material oak_wood {
+    density: 700
+    youngs_modulus: 12
+    tensile_strength: 100
+    compressive_strength: 50
+    static_friction: 0.50
+    kinetic_friction: 0.38
+    thermal_conductivity: 0.17
+    specific_heat: 2400
+    flash_point: 300
+    hardness: 4.0
+}
+
+material pine_wood {
+    density: 520
+    youngs_modulus: 9
+    tensile_strength: 80
+    static_friction: 0.45
+    kinetic_friction: 0.35
+    thermal_conductivity: 0.12
+    specific_heat: 2300
+    flash_point: 250
+    hardness: 2.5
+}

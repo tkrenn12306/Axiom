@@ -1,0 +1,37 @@
+// test_basic.ax — Minimal integration test scenario
+// Used by: tests/integration/test_scenario_load.rs
+
+world "test_world" {
+    gravity: 9.81
+    tick_rate: 60
+    ambient_temperature: 15
+    size: (256, 256)
+}
+
+material granite {
+    density: 2750
+    static_friction: 0.65
+    kinetic_friction: 0.55
+}
+
+entity person {
+    type: humanoid
+    mass: 75
+    height: 1.78
+    body_temperature: 37
+}
+
+entity boulder {
+    type: rigid_body
+    mass: 150
+    height: 1.6
+}
+
+spawn person "Elena" at (120, 200) {
+    mass: 62
+    height: 1.65
+}
+
+spawn person "Bob" at (50, 50)
+
+spawn boulder "Rock1" at (600, 100)

@@ -1,0 +1,17 @@
+// AxiomLang Standard Library — Humanoid Entity Template
+// Phase 1 scaffold
+
+entity person {
+    type: humanoid
+    mass: 75
+    height: 1.78
+    drag_coefficient: 1.15
+    body_temperature: 37
+    metabolic_rate: 80
+    clothing_insulation: 2.0
+    max_speed: 5
+    comfort_min: 18
+    comfort_max: 28
+    hypothermia_threshold: 35
+    hyperthermia_threshold: 40
+}
