@@ -2,5 +2,5 @@
 // Phase 0 stub — implemented in Phase 8
 
 pub mod behavior_tree;
-pub mod pathfinding;
 pub mod needs;
+pub mod pathfinding;

@@ -1,5 +1,5 @@
-use std::collections::HashMap;
 use crate::units::Quantity;
+use std::collections::HashMap;
 
 /// A complete parsed `.ax` file.
 #[derive(Debug, Default, Clone)]
@@ -99,21 +99,24 @@ impl WorldConfig {
 
     /// Tick rate in Hz, defaults to 60.
     pub fn tick_rate(&self) -> f64 {
-        self.props.get("tick_rate")
+        self.props
+            .get("tick_rate")
             .and_then(|v| v.as_si())
             .unwrap_or(60.0)
     }
 
     /// Surface gravity in m/s², defaults to 9.81.
     pub fn gravity(&self) -> f64 {
-        self.props.get("gravity")
+        self.props
+            .get("gravity")
             .and_then(|v| v.as_si())
             .unwrap_or(9.81)
     }
 
     /// Ambient temperature in Kelvin, defaults to 288.15 K (15°C).
     pub fn ambient_temperature_k(&self) -> f64 {
-        self.props.get("ambient_temperature")
+        self.props
+            .get("ambient_temperature")
             .and_then(|v| v.as_si())
             .unwrap_or(288.15)
     }

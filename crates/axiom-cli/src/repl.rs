@@ -1,11 +1,11 @@
-use rustyline::error::ReadlineError;
-use rustyline::DefaultEditor;
 use rustyline::completion::{Completer, FilenameCompleter, Pair};
-use rustyline::hint::Hinter;
-use rustyline::highlight::Highlighter;
-use rustyline::validate::Validator;
 use rustyline::config::Configurer;
+use rustyline::error::ReadlineError;
+use rustyline::highlight::Highlighter;
+use rustyline::hint::Hinter;
+use rustyline::validate::Validator;
 use rustyline::Context;
+use rustyline::DefaultEditor;
 
 use crate::commands::{do_inspect, do_load, SimState};
 use axiom_core::TickEngine;
@@ -52,8 +52,19 @@ impl AxiomCompleter {
 
     fn get_base_commands(&self) -> Vec<&'static str> {
         vec![
-            "load", "inspect", "list", "world", "run", "clear", "help", "quit", "exit",
-            "time.pause", "time.resume", "time.step", "time.speed",
+            "load",
+            "inspect",
+            "list",
+            "world",
+            "run",
+            "clear",
+            "help",
+            "quit",
+            "exit",
+            "time.pause",
+            "time.resume",
+            "time.step",
+            "time.speed",
         ]
     }
 }
@@ -110,7 +121,7 @@ pub fn start() {
 
     let mut rl = DefaultEditor::new().expect("Failed to initialize readline");
     rl.set_max_history_size(1000).ok();
-    
+
     let mut state = SimState::new();
 
     loop {
@@ -194,12 +205,10 @@ fn handle_command(line: &str, state: &mut SimState) {
                 }
             }
         }
-        "world" => {
-            match &state.world_name {
-                Some(name) => println!("World: \"{}\"  |  Entities: {}", name, state.world.len()),
-                None => println!("No world loaded. Use 'load <file.ax>' first."),
-            }
-        }
+        "world" => match &state.world_name {
+            Some(name) => println!("World: \"{}\"  |  Entities: {}", name, state.world.len()),
+            None => println!("No world loaded. Use 'load <file.ax>' first."),
+        },
         "run" => {
             if arg.is_empty() {
                 // Run tick engine indefinitely (Phase 0 deliverable)
@@ -234,13 +243,19 @@ fn handle_command(line: &str, state: &mut SimState) {
             } else {
                 let factor_str = arg.strip_suffix('x').unwrap_or(arg);
                 match factor_str.parse::<f64>() {
-                    Ok(factor) => println!("⏱  Simulation speed set to {}x (Not yet implemented in Phase 2)", factor),
+                    Ok(factor) => println!(
+                        "⏱  Simulation speed set to {}x (Not yet implemented in Phase 2)",
+                        factor
+                    ),
                     Err(_) => eprintln!("Invalid speed factor. Use format like '2x' or '0.5x'"),
                 }
             }
         }
         _ => {
-            eprintln!("Unknown command: '{}'. Type 'help' for available commands.", cmd);
+            eprintln!(
+                "Unknown command: '{}'. Type 'help' for available commands.",
+                cmd
+            );
         }
     }
 }

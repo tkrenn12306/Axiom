@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
-use axiom_core::{World, EntityId};
 use crate::ast::{AxiomFile, EntityDef, EntityType, Value};
+use axiom_core::{EntityId, World};
 
 /// ECS components added by the evaluator.
 
@@ -61,11 +61,8 @@ pub fn load_into_world(file: AxiomFile, world: &mut World) -> LoadResult {
     let mut named_entities = HashMap::new();
 
     // Index entity definitions by name for quick lookup
-    let entity_defs: HashMap<String, &EntityDef> = file
-        .entities
-        .iter()
-        .map(|e| (e.name.clone(), e))
-        .collect();
+    let entity_defs: HashMap<String, &EntityDef> =
+        file.entities.iter().map(|e| (e.name.clone(), e)).collect();
 
     for cmd in &file.spawn_cmds {
         // Merge definition props with instance overrides
@@ -84,13 +81,21 @@ pub fn load_into_world(file: AxiomFile, world: &mut World) -> LoadResult {
             .unwrap_or(EntityType::Generic);
 
         // Extract standard physics components
-        let mass_kg = merged_props.get("mass").and_then(|v| v.as_si()).unwrap_or(1.0);
-        let height_m = merged_props.get("height").and_then(|v| v.as_si()).unwrap_or(1.0);
-        let temp_k = merged_props.get("body_temperature")
+        let mass_kg = merged_props
+            .get("mass")
+            .and_then(|v| v.as_si())
+            .unwrap_or(1.0);
+        let height_m = merged_props
+            .get("height")
+            .and_then(|v| v.as_si())
+            .unwrap_or(1.0);
+        let temp_k = merged_props
+            .get("body_temperature")
             .and_then(|v| v.as_si())
             .unwrap_or(293.15); // 20°C default
 
-        let position = cmd.position
+        let position = cmd
+            .position
             .map(|(x, y)| Position { x, y })
             .unwrap_or(Position { x: 0.0, y: 0.0 });
 

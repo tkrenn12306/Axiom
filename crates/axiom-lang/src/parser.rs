@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
-use pest::Parser;
 use pest::iterators::Pair;
+use pest::Parser;
 
 use crate::ast::*;
 use crate::units::{parse_unit, Quantity};
@@ -125,7 +125,11 @@ fn parse_material_block(pair: Pair<Rule>) -> Result<MaterialDef, ParseError> {
     }
 
     let props = parse_property_list(props_pairs)?;
-    Ok(MaterialDef { name, parent, props })
+    Ok(MaterialDef {
+        name,
+        parent,
+        props,
+    })
 }
 
 fn parse_entity_block(pair: Pair<Rule>) -> Result<EntityDef, ParseError> {
@@ -137,7 +141,11 @@ fn parse_entity_block(pair: Pair<Rule>) -> Result<EntityDef, ParseError> {
         .and_then(|v| v.as_str())
         .map(EntityType::from_str)
         .unwrap_or(EntityType::Generic);
-    Ok(EntityDef { name, entity_type, props })
+    Ok(EntityDef {
+        name,
+        entity_type,
+        props,
+    })
 }
 
 fn parse_terrain_block(pair: Pair<Rule>) -> Result<TerrainDef, ParseError> {
@@ -183,7 +191,12 @@ fn parse_spawn_cmd(pair: Pair<Rule>) -> Result<SpawnCmd, ParseError> {
         }
     }
 
-    Ok(SpawnCmd { entity_def, instance_name, position, overrides })
+    Ok(SpawnCmd {
+        entity_def,
+        instance_name,
+        position,
+        overrides,
+    })
 }
 
 fn parse_place_cmd(pair: Pair<Rule>) -> Result<PlaceCmd, ParseError> {
@@ -193,7 +206,11 @@ fn parse_place_cmd(pair: Pair<Rule>) -> Result<PlaceCmd, ParseError> {
     let mut range_inner = range_pair.into_inner();
     let from = parse_pair_val(range_inner.next().unwrap())?;
     let to = parse_pair_val(range_inner.next().unwrap())?;
-    Ok(PlaceCmd { terrain_def, from, to })
+    Ok(PlaceCmd {
+        terrain_def,
+        from,
+        to,
+    })
 }
 
 // ─── Property helpers ────────────────────────────────────────────────────────
@@ -233,19 +250,39 @@ fn parse_value(pair: Pair<Rule>) -> Result<Value, ParseError> {
     match inner.as_rule() {
         Rule::range_val => {
             let mut parts = inner.into_inner();
-            let lo: f64 = parts.next().unwrap().as_str().parse()
+            let lo: f64 = parts
+                .next()
+                .unwrap()
+                .as_str()
+                .parse()
                 .map_err(|_| ParseError::InvalidNumber("range lo".into()))?;
-            let hi: f64 = parts.next().unwrap().as_str().parse()
+            let hi: f64 = parts
+                .next()
+                .unwrap()
+                .as_str()
+                .parse()
                 .map_err(|_| ParseError::InvalidNumber("range hi".into()))?;
             Ok(Value::Range(lo, hi))
         }
         Rule::triple_val => {
             let mut parts = inner.into_inner();
-            let x: f64 = parts.next().unwrap().as_str().parse()
+            let x: f64 = parts
+                .next()
+                .unwrap()
+                .as_str()
+                .parse()
                 .map_err(|_| ParseError::InvalidNumber("triple x".into()))?;
-            let y: f64 = parts.next().unwrap().as_str().parse()
+            let y: f64 = parts
+                .next()
+                .unwrap()
+                .as_str()
+                .parse()
                 .map_err(|_| ParseError::InvalidNumber("triple y".into()))?;
-            let z: f64 = parts.next().unwrap().as_str().parse()
+            let z: f64 = parts
+                .next()
+                .unwrap()
+                .as_str()
+                .parse()
                 .map_err(|_| ParseError::InvalidNumber("triple z".into()))?;
             Ok(Value::Triple(x, y, z))
         }
@@ -253,9 +290,7 @@ fn parse_value(pair: Pair<Rule>) -> Result<Value, ParseError> {
             let (x, y) = parse_pair_val(inner)?;
             Ok(Value::Pair(x, y))
         }
-        Rule::quantity => {
-            parse_quantity(inner)
-        }
+        Rule::quantity => parse_quantity(inner),
         Rule::boolean => {
             let b = match inner.into_inner().next().unwrap().as_rule() {
                 Rule::bool_true => true,
@@ -263,12 +298,8 @@ fn parse_value(pair: Pair<Rule>) -> Result<Value, ParseError> {
             };
             Ok(Value::Boolean(b))
         }
-        Rule::string => {
-            Ok(Value::Text(unquote(inner.as_str())))
-        }
-        Rule::identifier => {
-            Ok(Value::Identifier(inner.as_str().to_string()))
-        }
+        Rule::string => Ok(Value::Text(unquote(inner.as_str()))),
+        Rule::identifier => Ok(Value::Identifier(inner.as_str().to_string())),
         r => Err(ParseError::UnexpectedRule(format!("{:?}", r))),
     }
 }
@@ -276,7 +307,8 @@ fn parse_value(pair: Pair<Rule>) -> Result<Value, ParseError> {
 fn parse_quantity(pair: Pair<Rule>) -> Result<Value, ParseError> {
     let mut inner = pair.into_inner();
     let num_str = inner.next().unwrap().as_str();
-    let value: f64 = num_str.parse()
+    let value: f64 = num_str
+        .parse()
         .map_err(|_| ParseError::InvalidNumber(num_str.to_string()))?;
 
     if let Some(unit_pair) = inner.next() {
@@ -292,9 +324,17 @@ fn parse_quantity(pair: Pair<Rule>) -> Result<Value, ParseError> {
 
 fn parse_pair_val(pair: Pair<Rule>) -> Result<(f64, f64), ParseError> {
     let mut inner = pair.into_inner();
-    let x: f64 = inner.next().unwrap().as_str().parse()
+    let x: f64 = inner
+        .next()
+        .unwrap()
+        .as_str()
+        .parse()
         .map_err(|_| ParseError::InvalidNumber("pair x".into()))?;
-    let y: f64 = inner.next().unwrap().as_str().parse()
+    let y: f64 = inner
+        .next()
+        .unwrap()
+        .as_str()
+        .parse()
         .map_err(|_| ParseError::InvalidNumber("pair y".into()))?;
     Ok((x, y))
 }

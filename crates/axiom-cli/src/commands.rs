@@ -2,8 +2,10 @@ use std::collections::HashMap;
 
 use axiom_core::{EntityId, World};
 use axiom_lang::{
-    evaluator::{LoadResult, Mass, Position, Temperature, Velocity, Height, Properties, EntityTypeTag},
-    parse_file, load_into_world,
+    evaluator::{
+        EntityTypeTag, Height, LoadResult, Mass, Position, Properties, Temperature, Velocity,
+    },
+    load_into_world, parse_file,
 };
 
 /// Shared simulation state passed around in the REPL session.
@@ -64,11 +66,9 @@ pub fn inspect(target: &str) {
 
 /// Load a file into an existing SimState, returns LoadResult or error string.
 pub fn do_load(path: &str, state: &mut SimState) -> Result<LoadResult, String> {
-    let src = std::fs::read_to_string(path)
-        .map_err(|e| format!("Cannot read file: {}", e))?;
+    let src = std::fs::read_to_string(path).map_err(|e| format!("Cannot read file: {}", e))?;
 
-    let file = parse_file(&src)
-        .map_err(|e| format!("{}", e))?;
+    let file = parse_file(&src).map_err(|e| format!("{}", e))?;
 
     // Reset world for fresh load
     state.world = axiom_core::World::new();
@@ -108,10 +108,16 @@ pub fn do_inspect(name: &str, state: &SimState) -> Result<String, String> {
     if let Ok(temp) = state.world.get::<Temperature>(entity_id) {
         // Show in Celsius for readability
         let celsius = temp.0 - 273.15;
-        lines.push(format!("  temperature:  {:.2} °C ({:.2} K)", celsius, temp.0));
+        lines.push(format!(
+            "  temperature:  {:.2} °C ({:.2} K)",
+            celsius, temp.0
+        ));
     }
     if let Ok(vel) = state.world.get::<Velocity>(entity_id) {
-        lines.push(format!("  velocity:     ({:.3}, {:.3}) m/s", vel.vx, vel.vy));
+        lines.push(format!(
+            "  velocity:     ({:.3}, {:.3}) m/s",
+            vel.vx, vel.vy
+        ));
     }
     if let Ok(tag) = state.world.get::<EntityTypeTag>(entity_id) {
         lines.push(format!("  type:         {:?}", tag.0));

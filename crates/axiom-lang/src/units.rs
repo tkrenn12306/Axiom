@@ -42,25 +42,25 @@ impl std::fmt::Display for Quantity {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Dimension {
     Dimensionless,
-    Mass,           // kg
-    Length,         // m
-    Time,           // s
-    Temperature,    // K (Kelvin)
-    Velocity,       // m/s
-    Acceleration,   // m/s²
-    Force,          // N = kg·m/s²
-    Pressure,       // Pa = N/m²
-    Energy,         // J = N·m
-    Power,          // W = J/s
-    Area,           // m²
-    Volume,         // m³
-    Density,        // kg/m³
-    ThermalConductivity,  // W/(m·K)
-    SpecificHeat,         // J/(kg·K)
-    Angle,          // rad
-    AngularVelocity,// rad/s
-    Frequency,      // Hz
-    ElasticModulus, // Pa (same as pressure dimensionally)
+    Mass,                // kg
+    Length,              // m
+    Time,                // s
+    Temperature,         // K (Kelvin)
+    Velocity,            // m/s
+    Acceleration,        // m/s²
+    Force,               // N = kg·m/s²
+    Pressure,            // Pa = N/m²
+    Energy,              // J = N·m
+    Power,               // W = J/s
+    Area,                // m²
+    Volume,              // m³
+    Density,             // kg/m³
+    ThermalConductivity, // W/(m·K)
+    SpecificHeat,        // J/(kg·K)
+    Angle,               // rad
+    AngularVelocity,     // rad/s
+    Frequency,           // Hz
+    ElasticModulus,      // Pa (same as pressure dimensionally)
 }
 
 /// All supported units in AxiomLang.
@@ -165,24 +165,39 @@ impl Unit {
         match self {
             Unit::Kilogram | Unit::Gram | Unit::Milligram | Unit::Pound => Dimension::Mass,
 
-            Unit::Meter | Unit::Centimeter | Unit::Millimeter | Unit::Kilometer
-            | Unit::Foot | Unit::Yard | Unit::Mile => Dimension::Length,
+            Unit::Meter
+            | Unit::Centimeter
+            | Unit::Millimeter
+            | Unit::Kilometer
+            | Unit::Foot
+            | Unit::Yard
+            | Unit::Mile => Dimension::Length,
 
             Unit::Second | Unit::Minute | Unit::Hour => Dimension::Time,
 
             Unit::Kelvin | Unit::Celsius | Unit::Fahrenheit => Dimension::Temperature,
 
-            Unit::MetersPerSecond | Unit::KilometersPerHour | Unit::MilesPerHour => Dimension::Velocity,
+            Unit::MetersPerSecond | Unit::KilometersPerHour | Unit::MilesPerHour => {
+                Dimension::Velocity
+            }
 
             Unit::MetersPerSecondSquared => Dimension::Acceleration,
 
             Unit::Newton | Unit::Kilonewton => Dimension::Force,
 
-            Unit::Pascal | Unit::Hectopascal | Unit::Kilopascal
-            | Unit::Megapascal | Unit::Gigapascal | Unit::Atmosphere => Dimension::Pressure,
+            Unit::Pascal
+            | Unit::Hectopascal
+            | Unit::Kilopascal
+            | Unit::Megapascal
+            | Unit::Gigapascal
+            | Unit::Atmosphere => Dimension::Pressure,
 
-            Unit::Joule | Unit::Kilojoule | Unit::Megajoule | Unit::Gigajoule
-            | Unit::Kilocalorie | Unit::Calorie => Dimension::Energy,
+            Unit::Joule
+            | Unit::Kilojoule
+            | Unit::Megajoule
+            | Unit::Gigajoule
+            | Unit::Kilocalorie
+            | Unit::Calorie => Dimension::Energy,
 
             Unit::Watt | Unit::Kilowatt => Dimension::Power,
 
